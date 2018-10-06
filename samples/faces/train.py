@@ -39,8 +39,10 @@ def load_weights(model, init_with):
 
 def do_parsing():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--images_dir", required=True, type=str, help="Images directory")
-    parser.add_argument("--masks_dir", required=True, type=str, help="Output directory")
+    parser.add_argument("--images_train_dir", required=True, type=str, help="Images train directory")
+    parser.add_argument("--masks_train_dir", required=True, type=str, help="Masks train directory")
+    parser.add_argument("--images_val_dir", required=True, type=str, help="Images val directory")
+    parser.add_argument("--masks_val_dir", required=True, type=str, help="Masks val directory")
     parser.add_argument("--output_dir", required=False, type=str, default="./model",
                         help="Mask images output extension")
     parser.add_argument("--init_weights", required=False, type=str, default="coco",
@@ -64,13 +66,15 @@ def main():
     config.display()
 
     # Training dataset
-    dataset_train = FassegDataset()
-    dataset_train.load_shapes(500, config.IMAGE_SHAPE[0], config.IMAGE_SHAPE[1])
+    dataset_train = FassegDataset(dataset_dir=args.images_train_dir, masks_dir=args.masks_train_dir, labels=args.labels)
+    dataset_train.load_images()
+    dataset_train.load_masks()
     dataset_train.prepare()
 
     # Validation dataset
-    dataset_val = FassegDataset()
-    dataset_val.load_shapes(50, config.IMAGE_SHAPE[0], config.IMAGE_SHAPE[1])
+    dataset_val = FassegDataset(dataset_dir=args.images_val_dir, masks_dir=args.masks_val_dir, labels=args.labels)
+    dataset_train.load_images()
+    dataset_train.load_masks()
     dataset_val.prepare()
 
     # Load model pretrained weight

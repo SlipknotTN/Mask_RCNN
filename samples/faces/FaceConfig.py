@@ -9,15 +9,15 @@ class FaceConfig(Config):
     NAME = "face"
 
     GPU_COUNT = 1
-    IMAGES_PER_GPU = 16
+    IMAGES_PER_GPU = 64
 
     # Number of classes (including background)
-    NUM_CLASSES = 4 #6  # background + 5 face parts
+    NUM_CLASSES = 6  # background + 5 face parts
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 128 #256
-    IMAGE_MAX_DIM = 128 #256
+    IMAGE_MIN_DIM = 256
+    IMAGE_MAX_DIM = 256
 
     # Use smaller anchors because our image and objects are small
     RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)  # anchor side in pixels
