@@ -73,8 +73,8 @@ def main():
 
     # Validation dataset
     dataset_val = FassegDataset(dataset_dir=args.images_val_dir, masks_dir=args.masks_val_dir, labels=args.labels)
-    dataset_train.load_images()
-    dataset_train.load_masks()
+    dataset_val.load_images()
+    dataset_val.load_masks()
     dataset_val.prepare()
 
     # Load model pretrained weight
