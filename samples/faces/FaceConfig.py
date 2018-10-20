@@ -9,7 +9,7 @@ class FaceConfig(Config):
     NAME = "face"
 
     GPU_COUNT = 1
-    IMAGES_PER_GPU = 64
+    IMAGES_PER_GPU = 32
 
     # Number of classes (including background)
     NUM_CLASSES = 6  # background + 5 face parts
@@ -26,7 +26,7 @@ class FaceConfig(Config):
     # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
     TRAIN_ROIS_PER_IMAGE = 32
 
-    # Use a small epoch since the data is simple
+    # Use a small epoch since the data is simple (real epoch number is 1)
     STEPS_PER_EPOCH = 100
 
     # use small validation steps since the epoch is small

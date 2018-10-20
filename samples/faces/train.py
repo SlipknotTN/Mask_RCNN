@@ -2,11 +2,6 @@ import os
 import sys
 import argparse
 
-import re
-import time
-import matplotlib
-import matplotlib.pyplot as plt
-
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")
 
@@ -16,8 +11,6 @@ from samples.faces.FassegDataset import FassegDataset
 from samples.faces.FaceConfig import FaceConfig
 from mrcnn import utils
 import mrcnn.model as modellib
-from mrcnn import visualize
-from mrcnn.model import log
 
 # Local path to trained weights file
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")

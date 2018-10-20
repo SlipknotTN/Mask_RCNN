@@ -86,7 +86,7 @@ class FassegDataset(utils.Dataset):
             one mask per instance.
         class_ids: a 1D array of class IDs of the instance masks.
         """
-        # If not a balloon dataset image, delegate to parent class.
+        # If not a face dataset image, delegate to parent class.
         image_info = self.image_info[image_id]
         if image_info["source"] != "face":
             return super(self.__class__, self).load_mask(image_id)
