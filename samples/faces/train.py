@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import csv
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../../")
@@ -40,7 +41,7 @@ def do_parsing():
                         help="Mask images output extension")
     parser.add_argument("--init_weights", required=False, type=str, default="coco",
                         help="Backbone model starting weights")
-    parser.add_argument("--labels", required=True, type=str, nargs='*', help="Labels for each instance type")
+    parser.add_argument("--classes_csv", required=True, type=str, help="CSV file with class-colors mapping")
     args = parser.parse_args()
     return args
 
@@ -58,14 +59,24 @@ def main():
     config = FaceConfig()
     config.display()
 
+    # Read labels
+    labels = []
+
+    with open(args.classes_csv, 'r') as csvfile:
+        reader = csv.reader(csvfile, delimiter=';')
+        # Skip header
+        next(reader)
+        for row in reader:
+            labels.append(row[0])
+
     # Training dataset
-    dataset_train = FassegDataset(dataset_dir=args.images_train_dir, masks_dir=args.masks_train_dir, labels=args.labels)
+    dataset_train = FassegDataset(dataset_dir=args.images_train_dir, masks_dir=args.masks_train_dir, labels=labels)
     dataset_train.load_images()
     dataset_train.load_masks()
     dataset_train.prepare()
 
     # Validation dataset
-    dataset_val = FassegDataset(dataset_dir=args.images_val_dir, masks_dir=args.masks_val_dir, labels=args.labels)
+    dataset_val = FassegDataset(dataset_dir=args.images_val_dir, masks_dir=args.masks_val_dir, labels=labels)
     dataset_val.load_images()
     dataset_val.load_masks()
     dataset_val.prepare()
