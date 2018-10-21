@@ -90,6 +90,7 @@ def main():
 
             for file in tqdm(files, desc="image"):
 
+                # BGR
                 image = cv2.imread(file, cv2.IMREAD_COLOR)
                 shape = image.shape
 
