@@ -108,8 +108,13 @@ def main():
         # Apply background color
         prediction[::] = classes[0][1]
 
-        for index, class_instance in enumerate(classes[1:]):
-            class_color = np.array(class_instance[1])
+        # Exploit class_ids array to match prediction with correct colors
+        # (they are not in ascending order, class_ids specifies the actual order)
+        # TODO: Why some class_id are repeated? I apply the colors to all occurences in the class_ids order
+        assert len(r['class_ids']) == r['masks'].shape[-1], "Class Ids shape different from Mask shape"
+        for index, class_id in enumerate(r["class_ids"]):
+            class_color = np.array(classes[class_id][1])
+            # Mask order is the same of class_ids order
             class_mask = r['masks'][:,:,index]
             prediction[class_mask] = class_color
 
