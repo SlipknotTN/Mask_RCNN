@@ -9,7 +9,7 @@ class FaceConfig(Config):
     NAME = "face"
 
     GPU_COUNT = 1
-    IMAGES_PER_GPU = 32
+    IMAGES_PER_GPU = 16
 
     # Number of classes (including background)
     NUM_CLASSES = 6  # background + 5 face parts
