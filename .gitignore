@@ -6,6 +6,9 @@ results/
 temp/
 test/
 
+# Fasseg dirty tests
+samples/faces/tests/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
