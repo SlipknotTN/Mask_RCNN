@@ -1,3 +1,6 @@
+# Git
+.git
+
 # Data files and directories common in repo root
 datasets/
 logs/
@@ -6,9 +9,9 @@ results/
 temp/
 test/
 
-# FloydHub
-.floydexpt
-floyd.yml
+# Big samples
+samples/coco
+samples/baloon
 
 # Fasseg dirty tests
 samples/faces/tests/

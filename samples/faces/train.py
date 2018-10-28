@@ -93,6 +93,7 @@ def main():
     # Passing layers="heads" freezes all layers except the head
     # layers. You can also pass a regular expression to select
     # which layers to train by name pattern.
+    print("Training head")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE,
                 epochs=1,
@@ -102,6 +103,7 @@ def main():
     # Passing layers="all" trains all layers. You can also
     # pass a regular expression to select which layers to
     # train by name pattern.
+    print("Fine tuning all")
     model.train(dataset_train, dataset_val,
                 learning_rate=config.LEARNING_RATE / 10,
                 epochs=2,
