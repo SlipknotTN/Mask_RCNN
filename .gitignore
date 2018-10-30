@@ -5,6 +5,7 @@ logs/
 results/
 temp/
 test/
+trained_models/
 
 # FloydHub
 .floydexpt

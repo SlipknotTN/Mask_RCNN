@@ -8,6 +8,7 @@ logs/
 results/
 temp/
 test/
+trained_models/
 
 # Big samples
 samples/coco
