@@ -30,7 +30,10 @@ class FassegDataset(utils.Dataset):
             for file in files:
                 for ext in exts:
                     if file.endswith("." + ext):
-                        self.images_paths.append(os.path.join(root, file))
+                        # Check if the associated mask exists
+                        if os.path.exists(
+                                os.path.join(self.masks_dir, root[root.rindex("/") + 1:] + "/" + file[:-3] + "npy")):
+                            self.images_paths.append(os.path.join(root, file))
 
         for image_path in self.images_paths:
 
