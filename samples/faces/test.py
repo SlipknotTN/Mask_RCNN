@@ -23,6 +23,7 @@ def do_parsing():
     parser.add_argument("--output_dir", required=False, type=str, help="Output directory with predictions")
     parser.add_argument("--output_format", required=False, type=str, default="jpg", help="Mask images output extension")
     parser.add_argument("--classes_csv", required=True, type=str, help="CSV file with class-colors mapping")
+    parser.add_argument("--debug", action="store_true", help="Export single predictions")
     args = parser.parse_args()
     return args
 
@@ -103,24 +104,38 @@ def main():
 
         # Visualize results
         r = results[0]
-        prediction = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.int32)
+        allinone_prediction = np.zeros((image.shape[0], image.shape[1], 3), dtype=np.int32)
 
         # Apply background color
-        prediction[::] = classes[0][1]
+        allinone_prediction[::] = classes[0][1]
+
+        single_predictions = []
 
         # Exploit class_ids array to match prediction with correct colors
         # (they are not in ascending order, class_ids specifies the actual order)
-        # TODO: Why some class_id are repeated? I apply the colors to all occurences in the class_ids order
+        # TODO: Watch out! class_id can be repeated? But I apply the colors to all occurences in the class_ids order
         assert len(r['class_ids']) == r['masks'].shape[-1], "Class Ids shape different from Mask shape"
         for index, class_id in enumerate(r["class_ids"]):
             class_color = np.array(classes[class_id][1])
             # Mask order is the same of class_ids order
             class_mask = r['masks'][:,:,index]
-            prediction[class_mask] = class_color
+            allinone_prediction[class_mask] = class_color
+
+            if args.debug:
+
+                single_prediction = np.zeros((image.shape[0], image.shape[1]), dtype=np.float32)
+                single_prediction[class_mask] = 1.0
+                single_predictions.append([index, classes[class_id][0], single_prediction])
 
         dest_path = os.path.join(args.output_dir, os.path.relpath(file, args.images_dir))
-        dest_path = dest_path[:-3] + args.output_format
-        skimage.io.imsave(dest_path, prediction)
+        dest_full_pred_path = dest_path[:-3] + args.output_format
+        skimage.io.imsave(dest_full_pred_path, allinone_prediction)
+
+        # Debug single classes predictions
+        for single_prediction in single_predictions:
+            dest_single_pred_path = dest_path[:-4] + "_" + str(single_prediction[0]) + "_" + \
+                                    single_prediction[1] + "." + args.output_format
+            skimage.io.imsave(dest_single_pred_path, single_prediction[2])
 
     print("Success")
 
